@@ -2,25 +2,24 @@
 # Fait par Steve MAHOT et Matthieu LOUF
 
 class gomoku:
-
     def __init__(self):
-        self.grille = [[' ' for j in range(3)] for i in range(3)]
-        self.tour = "X"
+        self.grille = [[' ' for j in range(15)] for i in range(15)]
+        self.tour = "N"
 
     def display(self):
         print('    0   1   2')
         print("  -------------")
-        for i in range(3):
+        for i in range(15):
             ligne= str(i)+" |"
-            for j in range(3):
+            for j in range(15):
                 ligne+=' '+self.grille[i][j]+ ' |'
             print(ligne,"\n  -------------")
 
     def tourSuivant(self):
-        if self.tour == "X":
-            self.tour = "O"
+        if self.tour == "N":
+            self.tour = "B"
         else :
-            self.tour = "X"
+            self.tour = "N"
     
     def gagnant(self):
         res = False
@@ -44,7 +43,7 @@ class gomoku:
 
     def matchNul (self):
         res = True
-        if self.gagnant() == "X" or self.gagnant() == "O":
+        if self.gagnant() == "N" or self.gagnant() == "B":
             res = False
         for i in range(3):
             if " " in self.grille[i]:
@@ -62,6 +61,25 @@ class gomoku:
             if i != liste[0]:
                 res = False
         return res
+
+    def ligne5suite(self, liste):
+        liste = list(liste)
+
+        compteur = 1
+        signe = ' '
+        for i in range(len(liste)):
+            if compteur == 5:
+                break
+            if liste[i] == signe and signe != ' ':
+                compteur += 1
+            else:
+                compteur = 1
+                signe = liste[i]
+        
+        if compteur == 5:
+            return signe
+        else :
+            return False
 
     def utility (self):
         if self.matchNul():
@@ -133,10 +151,10 @@ class gomoku:
         actions.append(self.Actions())
         actions.append(list())
         
-        if self.tour == 'X':
-            joueur = 'O'
+        if self.tour == 'N':
+            joueur = 'B'
         else :
-            joueur = 'X'
+            joueur = 'N'
 
         if len(actions[0]) == 1:
             self.grille[actions[0][0][0]][actions[0][0][1]] = joueur
