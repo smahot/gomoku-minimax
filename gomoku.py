@@ -67,19 +67,7 @@ class gomoku:
             if " " in self.grille[i]:
                 res = False
         return res
-        
-    def identiqueList(self, liste):
-        liste = list(liste)
-        res = True
-
-        if liste[0] == ' ': #exception
-            return False
-
-        for i in liste:
-            if i != liste[0]:
-                res = False
-        return res
-
+    
     def ligne5suite(self, liste):
         liste = list(liste)
 
