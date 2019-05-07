@@ -36,9 +36,6 @@ g.display()
 g.MinMax()
 
 print("fin")
-print("Appuyer sur une touche pour commencer: \n")
-input()
-print("Bonjour")
 
 #test EstAutour
 """g.largeur = 4
