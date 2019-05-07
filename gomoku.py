@@ -7,6 +7,7 @@ class gomoku:
         self.tour = "B"
         self.hauteur = len(self.grille)
         self.largeur = len(self.grille[0])
+        self.tic = 0
 
     def display(self):
         intro = '    '
@@ -33,14 +34,14 @@ class gomoku:
         res = False
         #lignes :
         for i in range (self.hauteur):
-            if res == False and self.ligne5suite(self.grille[i]):
-                res = self.grille[i][0]
+            if res == False:
+                res = self.ligne5suite(self.grille[i])
 
         #colonnes :
         if res == False:
             for i in range (self.largeur):
-                if res == False and self.ligne5suite(self.grille[j][i] for j in range(self.hauteur)):
-                    res = self.grille[0][i]
+                if res == False:
+                    res = self.ligne5suite(self.grille[j][i] for j in range(self.hauteur))
 
         #diagonales :
         if res == False:
@@ -49,14 +50,12 @@ class gomoku:
                     liste = list()
                     for i in range(self.hauteur - abs(start)):                        
                         liste.append(self.grille[abs(start)+i][i])
-                    if self.ligne5suite(liste):
-                        res = self.grille[0][i]
+                    res = self.ligne5suite(liste)
                 if res == False:
                     liste = list()
                     for i in range(abs(start)+1):                        
                         liste.append(self.grille[abs(start)-i][i])
-                    if self.ligne5suite(liste):
-                        res = self.grille[0][i]
+                    res = self.ligne5suite(liste)
         return res
 
     def matchNul (self):
@@ -88,6 +87,7 @@ class gomoku:
             return False
 
     def utility (self):
+        self.tic += 1
         if self.matchNul():
             return 0
         if self.gagnant() == self.tour:
@@ -126,6 +126,8 @@ class gomoku:
         return best
     
     def Max(self):
+        if self.tic % 100 == 0:
+            print(self.tic)
         if self.gagnant() != False or self.matchNul():
             return self.utility()
 
@@ -149,6 +151,8 @@ class gomoku:
         return max_utility
 
     def Max_AB(self,alpha,beta):
+        if self.tic % 100 == 0:
+            print(self.tic)
         if self.gagnant() != False or self.matchNul():
             return self.utility()
 
