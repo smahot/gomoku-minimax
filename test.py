@@ -35,3 +35,13 @@ g.display()
 g.MinMax()
 
 print("fin")
+
+#test EstAutour
+"""g.largeur = 4
+g.hauteur = g.largeur
+g.grille = [[' ',' ',' ',' '],
+            [' ',' ',' ',' '],
+            [' ',' ','N',' '],
+            [' ',' ',' ',' '],]
+g.display()
+g.Actions()"""

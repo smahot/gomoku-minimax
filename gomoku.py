@@ -9,6 +9,8 @@ class gomoku:
         self.largeur = len(self.grille[0])
         self.tic = 0
 
+        self.distanceJeu = 1
+
     def display(self):
         intro = '    '
         for i in range(self.hauteur):
@@ -95,12 +97,21 @@ class gomoku:
         else:
             return -1
     
+    def EstAutour(self,i,j):
+        for k in range((2*self.distanceJeu)+1):
+                for l in range((2*self.distanceJeu)+1):
+                    if (i+k-self.distanceJeu>=0) and (i+k-self.distanceJeu<self.hauteur) and (j+l-self.distanceJeu>=0) and (j+l-self.distanceJeu<self.largeur):
+                        if self.grille[i+k-self.distanceJeu][j+l-self.distanceJeu]!=' ':
+                            return True
+        return False
+
     def Actions(self):
         acts = []
         for i in range(self.hauteur):
             for j in range(self.largeur):
-                if(self.grille[i][j]==' '):
+                if((self.grille[i][j]==' ') and self.EstAutour(i,j)):
                     acts.append([i,j])
+        print(acts)
         return acts
 
     def Results(self,position,joueur):
