@@ -63,11 +63,10 @@ def humain_vs_ia():
         print("Le gagnant est \'",m.gagnant(),"\'! :D\n")
 
 def menu():
-    print("\n 1 : Humain vs Humain assisté par ordinateur\n 2 : Humain vs IA\n")
-    choix = int(input("Mode de jeu : "))
-    
-    if choix==2:
-        humain_vs_ia()
+    print("\n Appuyer sur une touche pour commencer \n")
+
+    raw_input()
+    humain_vs_ia()
 
 #------------ Lancement du menu -------------#
 menu()
