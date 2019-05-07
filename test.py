@@ -2,11 +2,11 @@
 from gomoku import gomoku
 
 g = gomoku()
-g.grille = [['B','N','B','N','N','B'],
+g.grille = [['B','N',' ','N','N','B'],
             ['N','B','N','B','B','B'],
-            ['B','N',' ','B','N','N'],
+            [' ','N',' ','B',' ','N'],
             ['B','B','N',' ','N','B'],
-            ['N','N','N','B','B','N'],
+            [' ','N',' ','B','B','N'],
             ['B','N',' ',' ','N','N']]
 g.largeur = 6
 g.hauteur = g.largeur
@@ -33,7 +33,7 @@ g.display()
 # Test Reussi
 """
 
-g.MinMax()
+print(g.MinMax())
 
 print("fin")
 
