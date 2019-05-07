@@ -56,8 +56,8 @@ def humain_vs_ia():
         m.display()
 
         if(type_joueur[joueur_actuel]=='joueur'):
-            x = int(input("Jouer à la coordonnée x = "))
-            y = int(input("                      y = "))
+            x = input("Jouer à la coordonnée Ligne = ")
+            y = int(input("                      Colonne = "))
             m.Results([x,y],m.tour)
         
         else :
