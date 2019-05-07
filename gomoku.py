@@ -4,7 +4,7 @@
 class gomoku:
     def __init__(self):
         self.grille = [[' ' for j in range(15)] for i in range(15)]
-        self.tour = "N"
+        self.tour = "B"
         self.hauteur = len(self.grille)
         self.largeur = len(self.grille[0])
         self.tic = 0
