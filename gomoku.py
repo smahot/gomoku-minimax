@@ -9,6 +9,7 @@ class gomoku:
         self.hauteur = len(self.grille)
         self.largeur = len(self.grille[0])
         self.tic = 0
+        self.limite = 5
 
         self.distanceJeu = 1
 
@@ -179,6 +180,9 @@ class gomoku:
     def Max_AB(self,alpha,beta,profondeur):
         if self.gagnant() != False or self.matchNul():
             return self.utility()
+        if profondeur > self.limite:
+            return self.utility()
+            #return 0
 
         actions = list()
         actions.append(self.Actions())
@@ -198,6 +202,9 @@ class gomoku:
     def Min_AB(self,alpha,beta,profondeur):
         if self.gagnant() != False or self.matchNul():
             return self.utility()
+        if profondeur > self.limite:
+            return self.utility()
+            #return 0
 
         actions = list()
         actions.append(self.Actions())
