@@ -56,9 +56,10 @@ def humain_vs_ia():
         m.display()
 
         if(type_joueur[joueur_actuel]=='joueur'):
-            x = input("Jouer à la coordonnée Ligne = ")
-            y = int(input("                      Colonne = "))
-            m.Results([x,y],m.tour)
+            ligne =  input("Jouer à la coordonnée Ligne = ").upper()
+            true_ligne=ord(ligne)-65
+            colonne = int(input("                      Colonne = "))
+            m.Results([true_ligne,colonne],m.tour)
         
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
