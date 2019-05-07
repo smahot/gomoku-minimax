@@ -126,7 +126,7 @@ class gomoku:
         actions.append(list())
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = self.tour
-            min_utility = self.Min_AB(alpha,beta)
+            min_utility = self.Min_AB(-2,2)
             self.grille[actions[0][i][0]][actions[0][i][1]] = " "
             actions[1].append(min_utility)
 
