@@ -18,11 +18,12 @@ def demander_coordonnées(tour):
     ligne=ord(ligne)-65
     colonne = int(input("                      Colonne = "))
     if tour==3:
-        while ligne<=6:
+        while (ligne>1 and ligne<14) and (colonne>1 and colonne<14):
+            print(ligne,' ',colonne)
             ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
             ligne=ord(ligne)-64
-        while colonne<=7:
             colonne = int(input("Colonne trop près du centre (minimum 7) : "))
+            
     return ligne,colonne
 
 def humain_vs_ia():
@@ -47,7 +48,8 @@ def humain_vs_ia():
             print("-> Calcul des actions possibles (peut durer 10s)\n")
             choix_ia=m.MinMax()
             if tour==3:
-                while choix_ia[0]<=6 or choix_ia[1]<=6:
+                choix_ia=[[0,7]]
+                while (choix_ia[0][0]>1 and choix_ia[0][0]<14) and (choix_ia[0][1]>1 and choix_ia[0][1]<14):
                     choix_ia=m.MinMax()
             m.Results([choix_ia[0][0],choix_ia[0][1]],m.tour)
         

@@ -183,7 +183,6 @@ class gomoku:
             return self.utility()
         if profondeur > self.limite:
             return self.utility()
-            #return 0
 
         actions = list()
         actions.append(self.Actions())
@@ -205,7 +204,6 @@ class gomoku:
             return self.utility()
         if profondeur > self.limite:
             return self.utility()
-            #return 0
 
         actions = list()
         actions.append(self.Actions())
