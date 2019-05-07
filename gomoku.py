@@ -39,13 +39,16 @@ class gomoku:
         #lignes :
         for i in range (self.hauteur):
             if res == False:
-                res = self.ligne5suite(self.grille[i])
-
+                res = self.ligneXsuite(5, self.grille[i])
+        
         #colonnes :
         if res == False:
             for i in range (self.largeur):
                 if res == False:
-                    res = self.ligne5suite(self.grille[j][i] for j in range(self.hauteur))
+                    liste = list()
+                    for j in range(self.hauteur):
+                        liste.append(self.grille[j][i])
+                    res = self.ligneXsuite(5, liste)
 
         #diagonales :
         if res == False:
@@ -54,12 +57,12 @@ class gomoku:
                     liste = list()
                     for i in range(self.hauteur - abs(start)):                        
                         liste.append(self.grille[abs(start)+i][i])
-                    res = self.ligne5suite(liste)
+                    res = self.ligneXsuite(5, liste)
                 if res == False:
                     liste = list()
                     for i in range(abs(start)+1):                        
                         liste.append(self.grille[abs(start)-i][i])
-                    res = self.ligne5suite(liste)
+                    res = self.ligneXsuite(5, liste)
         return res
 
     def matchNul (self):
@@ -71,13 +74,13 @@ class gomoku:
                 res = False
         return res
     
-    def ligne5suite(self, liste):
+    def ligneXsuite(self, nb, liste):
         liste = list(liste)
 
         compteur = 1
         signe = ' '
         for i in range(len(liste)):
-            if compteur == 5:
+            if compteur == nb:
                 break
             if liste[i] == signe and signe != ' ':
                 compteur += 1
@@ -85,20 +88,57 @@ class gomoku:
                 compteur = 1
                 signe = liste[i]
         
-        if compteur == 5:
+        if compteur == nb:
             return signe
         else :
             return False
 
     def utility (self):
-        self.tic += 1
         if self.matchNul():
             return 0
-        if self.gagnant() == self.tour:
-            return 1
+        joueur1 = self.tour
+        joueur2 = "B"
+        if joueur1 == "B":
+            joueur2 = "N"
+        if self.gagnant() == joueur1:
+            return 1000
+        elif self.gagnant() == joueur2:
+            return -1000
         else:
-            return -1
-    
+            total = 0
+            total += self.nb_Xsuite(4, joueur1)*20
+            total -= self.nb_Xsuite(4, joueur2)*20
+            total += self.nb_Xsuite(3, joueur1)*5
+            total -= self.nb_Xsuite(3, joueur2)*5
+
+    def nb_Xsuite(self, nb, joueur):
+        total = 0
+        #lignes :
+        for i in range (self.hauteur):
+            if joueur == self.ligneXsuite(nb, self.grille[i]):
+                total += 1
+
+        #colonnes :
+            for i in range (self.largeur):
+                if joueur == self.ligneXsuite(nb, (self.grille[j][i] for j in range(self.hauteur))):
+                    total += 1
+
+        #diagonales :
+            for start in range(-self.largeur+1, self.largeur -1):
+                liste = list()
+                for i in range(self.hauteur - abs(start)):
+                    liste.append(self.grille[abs(start)+i][i])
+                if joueur == self.ligneXsuite(4, liste):
+                    total += 1
+
+                liste = list()
+                for i in range(abs(start)+1):                        
+                    liste.append(self.grille[abs(start)-i][i])
+                if joueur == self.ligneXsuite(4, liste):
+                    total += 1
+        return total
+
+
     def EstAutour(self,i,j):
         for k in range((2*self.distanceJeu)+1):
                 for l in range((2*self.distanceJeu)+1):

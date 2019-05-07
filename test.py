@@ -13,6 +13,7 @@ g.hauteur = g.largeur
 
 # Test ligne5suite # OK
 #==================#
+"""
 liste1 = [' ', ' ', 'B', 'N', 'N', 'B', 'N', 'N', 'B', ' ', 'N', 'N', 'N', 'N', 'N'] #droite5
 liste2 = ['N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'B', ' ', 'N', 'N', 'B', 'N', 'N'] #gauche5+
 liste3 = [' ', ' ', 'B', 'N', 'N', 'N', 'N', 'N', 'B', ' ', 'N', 'B', 'N', 'N', 'N'] #centre5
@@ -30,7 +31,7 @@ print(g.ligne5suite(liste6))
 g.display()
 # Resultat N N N B False False
 # Test Reussi
-
+"""
 
 g.MinMax()
 
