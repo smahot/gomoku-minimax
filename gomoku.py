@@ -9,7 +9,7 @@ class gomoku:
         self.hauteur = len(self.grille)
         self.largeur = len(self.grille[0])
         self.tic = 0
-        self.limite = 3
+        self.limite = 4
 
         self.distanceJeu = 1
 
@@ -92,6 +92,41 @@ class gomoku:
             return signe
         else :
             return False
+        
+    def ligneXsuite_libre(self, nb, liste):
+        liste = list(liste)
+
+        case_libre = False
+        compteur = 1
+        signe = ' '
+        i = 0
+        for i in range(len(liste)):
+            if compteur == nb:
+                break
+            if liste[i] == signe and signe != ' ':
+                signe = liste[i]
+                compteur += 1
+            elif liste[i] == signe and signe == ' ':
+                compteur = 0
+                case_libre = True
+            elif liste[i] != signe and signe != ' ':
+                case_libre = False
+                compteur = 1
+                signe = liste[i]                
+            else: # liste[i] != signe and signe == ' ':
+                case_libre = True
+                compteur = 1
+                signe = liste[i] 
+        
+        if compteur == nb:
+            if case_libre:
+                return signe
+            elif i < len(liste) and liste[i] == " ":
+                return signe
+            else :
+                return False
+        else :
+            return False
 
     def utility (self):
         if self.matchNul():
@@ -101,9 +136,9 @@ class gomoku:
         if joueur1 == "B":
             joueur2 = "N"
         if self.gagnant() == joueur1:
-            return 1000
+            return 10000
         elif self.gagnant() == joueur2:
-            return -1000
+            return -10000
         else:
             total = 0
             total += self.nb_Xsuite(4, joueur1)*20
@@ -116,12 +151,12 @@ class gomoku:
         total = 0
         #lignes :
         for i in range (self.hauteur):
-            if joueur == self.ligneXsuite(nb, self.grille[i]):
+            if joueur == self.ligneXsuite_libre(nb, self.grille[i]):
                 total += 1
 
         #colonnes :
             for i in range (self.largeur):
-                if joueur == self.ligneXsuite(nb, (self.grille[j][i] for j in range(self.hauteur))):
+                if joueur == self.ligneXsuite_libre(nb, (self.grille[j][i] for j in range(self.hauteur))):
                     total += 1
 
         #diagonales :
@@ -129,13 +164,13 @@ class gomoku:
                 liste = list()
                 for i in range(self.hauteur - abs(start)):
                     liste.append(self.grille[abs(start)+i][i])
-                if joueur == self.ligneXsuite(4, liste):
+                if joueur == self.ligneXsuite_libre(4, liste):
                     total += 1
 
                 liste = list()
                 for i in range(abs(start)+1):                        
                     liste.append(self.grille[abs(start)-i][i])
-                if joueur == self.ligneXsuite(4, liste):
+                if joueur == self.ligneXsuite_libre(4, liste):
                     total += 1
         return total
 
@@ -165,11 +200,12 @@ class gomoku:
         actions.append(list())
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = self.tour
-            min_utility = self.Min_AB(-1000,1000,3)
+            min_utility = self.Min_AB(-10000,10000,3)
             self.grille[actions[0][i][0]][actions[0][i][1]] = " "
             actions[1].append(min_utility)
 
         index = actions[1].index(max(actions[1]))
+        print(actions)
         best = list()
         best.append(actions[0][index])
         best.append(actions[1][index])
@@ -189,7 +225,7 @@ class gomoku:
         actions.append(self.Actions())
         joueur = self.tour
 
-        max_utility = -1000
+        max_utility = -10000
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
             max_utility = max(max_utility,self.Min_AB(alpha,beta,profondeur+1))
@@ -215,7 +251,7 @@ class gomoku:
         else :
             joueur = 'N'
 
-        min_utility = 1000
+        min_utility = 10000
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
             min_utility = min(min_utility,self.Max_AB(alpha,beta,profondeur+1))
