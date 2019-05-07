@@ -114,7 +114,7 @@ class gomoku:
         actions.append(list())
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = self.tour
-            min_utility = self.Min()
+            min_utility = self.Min_AB(alpha,beta)
             self.grille[actions[0][i][0]][actions[0][i][1]] = " "
             actions[1].append(min_utility)
 
@@ -150,6 +150,29 @@ class gomoku:
         max_utility = max(actions[1])
         return max_utility
 
+    def Max_AB(self,alpha,beta):
+        if self.gagnant() != False or self.matchNul():
+            return self.utility()
+
+        actions = list()
+        actions.append(self.Actions())
+        joueur = self.tour
+
+        #if len(actions[0]) == 1:
+        #    self.grille[actions[0][0][0]][actions[0][0][1]] = joueur
+        #    utility = self.utility()
+        #    self.grille[actions[0][0][0]][actions[0][0][1]] = " "
+        #    return utility
+        
+        for i in range(len(actions[0])):
+            self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
+            max_utility = max(max_utility,self.Min_AB(alpha,beta))
+            self.grille[actions[0][i][0]][actions[0][i][1]] = " "
+            if max_utility >= beta:
+                return max_utility
+            alpha = max(alpha,max_utility)
+
+        return max_utility
 
     def Min(self):
         if self.gagnant() != False or self.matchNul():
@@ -177,4 +200,32 @@ class gomoku:
             actions[1].append(max_utility)
         
         min_utility = min(actions[1])
+        return min_utility
+
+        def Min_AB(self,alpha,beta):
+        if self.gagnant() != False or self.matchNul():
+            return self.utility()
+
+        actions = list()
+        actions.append(self.Actions())
+        
+        if self.tour == 'N':
+            joueur = 'B'
+        else :
+            joueur = 'N'
+
+        #if len(actions[0]) == 1:
+        #    self.grille[actions[0][0][0]][actions[0][0][1]] = joueur
+        #    utility = self.utility()
+        #    self.grille[actions[0][0][0]][actions[0][0][1]] = " "
+        #    return utility
+        
+        for i in range(len(actions[0])):
+            self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
+            min_utility = min(min_utility,self.Max_AB(alpha,beta)))
+            self.grille[actions[0][i][0]][actions[0][i][1]] = " "
+            if min_utility<= alpha:
+                return min_utility
+            beta = min(beta,min_utility)
+
         return min_utility
