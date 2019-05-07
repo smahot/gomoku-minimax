@@ -63,9 +63,9 @@ def humain_vs_ia():
         print("Le gagnant est \'",m.gagnant(),"\'! :D\n")
 
 def menu():
-    print("\n Appuyer sur une touche pour commencer \n")
+    print("\n Appuyer sur une entrée pour commencer \n")
 
-    raw_input()
+    input()
     humain_vs_ia()
 
 #------------ Lancement du menu -------------#
