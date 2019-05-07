@@ -36,7 +36,7 @@ def humain_vs_ia():
                     ligne=ord(ligne)-65
                 while colonne<=6:
                     colonne = int(input("Colonne trop près du centre (minimum 7) : "))        
-            m.Results([true_ligne,colonne],m.tour)
+            m.Results([ligne,colonne],m.tour)
         
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
@@ -65,9 +65,7 @@ def humain_vs_ia():
 def menu():
     print("\n 1 : Humain vs Humain assisté par ordinateur\n 2 : Humain vs IA\n")
     choix = int(input("Mode de jeu : "))
-
-    if choix==1:
-        humain_vs_humain()
+    
     if choix==2:
         humain_vs_ia()
 
