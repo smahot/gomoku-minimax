@@ -4,6 +4,7 @@
 class gomoku:
     def __init__(self):
         self.grille = [[' ' for j in range(15)] for i in range(15)]
+        self.grille[7][7]='N'
         self.tour = "B"
         self.hauteur = len(self.grille)
         self.largeur = len(self.grille[0])
@@ -111,7 +112,6 @@ class gomoku:
             for j in range(self.largeur):
                 if((self.grille[i][j]==' ') and self.EstAutour(i,j)):
                     acts.append([i,j])
-        print(acts)
         return acts
 
     def Results(self,position,joueur):
@@ -132,8 +132,8 @@ class gomoku:
         best.append(actions[0][index])
         best.append(actions[1][index])
 
-        print("Actions possibles :",actions[0])
-        print("Scores correspondants :",actions[1])
+        #print("Actions possibles :",actions[0])
+        #print("Scores correspondants :",actions[1])
         return best
     
     def Max(self):
