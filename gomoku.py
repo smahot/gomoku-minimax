@@ -5,15 +5,19 @@ class gomoku:
     def __init__(self):
         self.grille = [[' ' for j in range(15)] for i in range(15)]
         self.tour = "N"
+        self.hauteur = len(self.grille)
+        self.largeur = len(self.grille[0])
 
     def display(self):
-        print('    0   1   2')
-        print("  -------------")
-        for i in range(15):
-            ligne= str(i)+" |"
-            for j in range(15):
+        intro = '    '
+        for i in range(self.hauteur):
+            intro += str(i+1) + '   '
+        print(intro)
+        for i in range(self.hauteur):
+            ligne= str(chr(65+i)+" |")
+            for j in range(self.largeur):
                 ligne+=' '+self.grille[i][j]+ ' |'
-            print(ligne,"\n  -------------")
+            print(ligne)
 
     def tourSuivant(self):
         if self.tour == "N":

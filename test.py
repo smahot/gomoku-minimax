@@ -19,5 +19,6 @@ print(g.ligne5suite(liste4))
 print(g.ligne5suite(liste5))
 print(g.ligne5suite(liste6))
 
-# Résultat N N N B False False
-# Test Réussi
+g.display()
+# Resultat N N N B False False
+# Test Reussi
