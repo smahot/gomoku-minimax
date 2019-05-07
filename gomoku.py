@@ -11,7 +11,11 @@ class gomoku:
     def display(self):
         intro = '    '
         for i in range(self.hauteur):
-            intro += str(i+1) + '   '
+            intro += str(i+1)
+            if i <=7 :
+                intro += '   '
+            else:
+                intro += '  '
         print(intro)
         for i in range(self.hauteur):
             ligne= str(chr(65+i)+" |")
@@ -107,8 +111,8 @@ class gomoku:
     
     def Actions(self):
         acts = []
-        for i in range(3):
-            for j in range(3):
+        for i in range(self.hauteur):
+            for j in range(self.largeur):
                 if(self.grille[i][j]==' '):
                     acts.append([i,j])
         return acts
