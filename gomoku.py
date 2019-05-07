@@ -31,29 +31,41 @@ class gomoku:
     
     def gagnant(self):
         res = False
-        #3 lignes :
-        for i in range (3):
-            if res == False and self.identiqueList(self.grille[i]):
+        #lignes :
+        for i in range (self.hauteur):
+            if res == False and self.ligne5suite(self.grille[i]):
                 res = self.grille[i][0]
 
-        #3 colonnes :
+        #colonnes :
         if res == False:
-            for i in range (3):
-                if res == False and self.identiqueList(self.grille[j][i] for j in range(3)):
+            for i in range (self.largeur):
+                if res == False and self.ligne5suite(self.grille[j][i] for j in range(self.hauteur)):
                     res = self.grille[0][i]
 
-        #2 diagonales :
-        if res == False and self.identiqueList(self.grille[i][i] for i in range(3)):
-            res = self.grille[0][0]
-        if res == False and self.identiqueList(self.grille[i][2-i] for i in range(3)):
-            res = self.grille[0][2]
+        #diagonales :
+        if res == False:
+            for start in range(-self.largeur+1, self.largeur -1):
+                if res == False:
+                    liste = list()
+                    for i in range(self.hauteur - abs(start)):                        
+                        liste.append(self.grille[abs(start)+i][i])
+                    print(liste)
+                    if self.ligne5suite(liste):
+                        res = self.grille[0][i]
+                if res == False:
+                    liste = list()
+                    for i in range(abs(start)+1):                        
+                        liste.append(self.grille[abs(start)-i][i])
+                    print(liste)
+                    if self.ligne5suite(liste):
+                        res = self.grille[0][i]
         return res
 
     def matchNul (self):
         res = True
         if self.gagnant() == "N" or self.gagnant() == "B":
             res = False
-        for i in range(3):
+        for i in range(self.hauteur):
             if " " in self.grille[i]:
                 res = False
         return res
