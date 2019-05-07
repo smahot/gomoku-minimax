@@ -49,14 +49,12 @@ class gomoku:
                     liste = list()
                     for i in range(self.hauteur - abs(start)):                        
                         liste.append(self.grille[abs(start)+i][i])
-                    print(liste)
                     if self.ligne5suite(liste):
                         res = self.grille[0][i]
                 if res == False:
                     liste = list()
                     for i in range(abs(start)+1):                        
                         liste.append(self.grille[abs(start)-i][i])
-                    print(liste)
                     if self.ligne5suite(liste):
                         res = self.grille[0][i]
         return res
