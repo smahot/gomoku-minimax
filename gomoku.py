@@ -135,29 +135,6 @@ class gomoku:
         #print("Actions possibles :",actions[0])
         #print("Scores correspondants :",actions[1])
         return best
-    
-    def Max(self):
-        if self.gagnant() != False or self.matchNul():
-            return self.utility()
-
-        actions = list()
-        actions.append(self.Actions())
-        actions.append(list())
-        joueur = self.tour
-        if len(actions[0]) == 1:
-            self.grille[actions[0][0][0]][actions[0][0][1]] = joueur
-            utility = self.utility()
-            self.grille[actions[0][0][0]][actions[0][0][1]] = " "
-            return utility
-        
-        for i in range(len(actions[0])):
-            self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
-            min_utility = self.Min()
-            self.grille[actions[0][i][0]][actions[0][i][1]] = " "
-            actions[1].append(min_utility)
-        
-        max_utility = max(actions[1])
-        return max_utility
 
     def Max_AB(self,alpha,beta):
         if self.gagnant() != False or self.matchNul():
@@ -167,11 +144,6 @@ class gomoku:
         actions.append(self.Actions())
         joueur = self.tour
 
-        #if len(actions[0]) == 1:
-        #    self.grille[actions[0][0][0]][actions[0][0][1]] = joueur
-        #    utility = self.utility()
-        #    self.grille[actions[0][0][0]][actions[0][0][1]] = " "
-        #    return utility
         max_utility = -2
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
@@ -182,34 +154,6 @@ class gomoku:
             alpha = max(alpha,max_utility)
 
         return max_utility
-
-    def Min(self):
-        if self.gagnant() != False or self.matchNul():
-            return self.utility()
-
-        actions = list()
-        actions.append(self.Actions())
-        actions.append(list())
-        
-        if self.tour == 'N':
-            joueur = 'B'
-        else :
-            joueur = 'N'
-
-        if len(actions[0]) == 1:
-            self.grille[actions[0][0][0]][actions[0][0][1]] = joueur
-            utility = self.utility()
-            self.grille[actions[0][0][0]][actions[0][0][1]] = " "
-            return utility
-        
-        for i in range(len(actions[0])):
-            self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
-            max_utility = self.Max()
-            self.grille[actions[0][i][0]][actions[0][i][1]] = " "
-            actions[1].append(max_utility)
-        
-        min_utility = min(actions[1])
-        return min_utility
 
     def Min_AB(self,alpha,beta):
         if self.gagnant() != False or self.matchNul():
@@ -223,11 +167,6 @@ class gomoku:
         else :
             joueur = 'N'
 
-        #if len(actions[0]) == 1:
-        #    self.grille[actions[0][0][0]][actions[0][0][1]] = joueur
-        #    utility = self.utility()
-        #    self.grille[actions[0][0][0]][actions[0][0][1]] = " "
-        #    return utility
         min_utility = 2
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
