@@ -13,33 +13,6 @@ from gomoku import gomoku
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
-def humain_vs_humain():
-    m = gomoku()
-
-    print("Début de la partie : \n")
-
-    while not (m.gagnant() or m.matchNul()) :
-        
-        print("Au tour du joueur \'",m.tour,"\' :")
-        m.display()
-
-        print("-> Calcul des actions possibles (peut durer 10s)\n")
-        print("Coordonnée conseillée :",m.MinMax(),"\n")
-        x = int(input("Jouer à la coordonnée x = "))
-        y = int(input("                      y = "))
-
-        m.Results([x,y],m.tour)
-        m.tourSuivant()
-
-        cls()
-        print("\n")
-
-    m.display()
-    gagnant=m.gagnant()
-    if gagnant==False:
-        print("Match nul :/\n")
-    else:
-        print("Le gagnant est le joueur \'",m.gagnant(),"\'! :D\n")
 
 def humain_vs_ia():
     m = gomoku()
@@ -49,21 +22,28 @@ def humain_vs_ia():
     joueur_actuel = rnd.randint(0,1)
 
     print("Début de la partie : \n")
-
+    tour=2
     while not (m.gagnant() or m.matchNul()) :
-
         print("Au tour de ",type_joueur[joueur_actuel]," \'",m.tour,"\' :")
         m.display()
-
         if(type_joueur[joueur_actuel]=='joueur'):
             ligne =  input("Jouer à la coordonnée Ligne = ").upper()
-            true_ligne=ord(ligne)-65
+            ligne=ord(ligne)-65
             colonne = int(input("                      Colonne = "))
+            if tour==3:
+                while ligne<=6:
+                    ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
+                    ligne=ord(ligne)-65
+                while colonne<=6:
+                    colonne = int(input("Colonne trop près du centre (minimum 7) : "))        
             m.Results([true_ligne,colonne],m.tour)
         
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
             choix_ia=m.MinMax()
+            if tour==3:
+                while choix_ia[0]<=6 or choix_ia[1]<=6:
+                    choix_ia=m.MinMax()
             m.Results([choix_ia[0][0],choix_ia[0][1]],m.tour)
         
         m.tourSuivant()
@@ -73,6 +53,7 @@ def humain_vs_ia():
 
         cls()
         print("\n")
+        tour+=1
 
     m.display()
     gagnant=m.gagnant()
