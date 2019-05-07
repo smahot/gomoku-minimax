@@ -163,7 +163,7 @@ class gomoku:
         actions.append(list())
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = self.tour
-            min_utility = self.Min_AB(-1,1,1)
+            min_utility = self.Min_AB(-1000,1000,3)
             self.grille[actions[0][i][0]][actions[0][i][1]] = " "
             actions[1].append(min_utility)
 
@@ -184,7 +184,7 @@ class gomoku:
         actions.append(self.Actions())
         joueur = self.tour
 
-        max_utility = -2
+        max_utility = -1000
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
             max_utility = max(max_utility,self.Min_AB(alpha,beta,profondeur+1))
@@ -207,7 +207,7 @@ class gomoku:
         else :
             joueur = 'N'
 
-        min_utility = 2
+        min_utility = 1000
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
             min_utility = min(min_utility,self.Max_AB(alpha,beta,profondeur+1))
