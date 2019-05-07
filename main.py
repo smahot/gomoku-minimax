@@ -28,15 +28,15 @@ def humain_vs_ia():
         m.display()
         if(type_joueur[joueur_actuel]=='joueur'):
             ligne =  input("Jouer à la coordonnée Ligne = ").upper()
-            ligne=ord(ligne)-64
+            ligne=ord(ligne)-65
             colonne = int(input("                      Colonne = "))
             if tour==3:
-                while ligne<=7:
+                while ligne<=6:
                     ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
                     ligne=ord(ligne)-64
                 while colonne<=7:
                     colonne = int(input("Colonne trop près du centre (minimum 7) : "))        
-            m.Results([ligne-1,colonne-1],m.tour)
+            m.Results([ligne,colonne-1],m.tour)
         
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
