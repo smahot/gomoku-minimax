@@ -13,6 +13,17 @@ from gomoku import gomoku
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
+def demander_coordonnées(tour):
+    ligne =  input("Jouer à la coordonnée Ligne = ").upper()
+    ligne=ord(ligne)-65
+    colonne = int(input("                      Colonne = "))
+    if tour==3:
+        while ligne<=6:
+            ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
+            ligne=ord(ligne)-64
+        while colonne<=7:
+            colonne = int(input("Colonne trop près du centre (minimum 7) : "))
+    return ligne,colonne
 
 def humain_vs_ia():
     m = gomoku()
@@ -23,21 +34,15 @@ def humain_vs_ia():
 
     print("Début de la partie : \n")
     tour=2
+
     while not (m.gagnant() or m.matchNul()) :
         print("Au tour de ",type_joueur[joueur_actuel]," \'",m.tour,"\' :")
         m.display()
+
         if(type_joueur[joueur_actuel]=='joueur'):
-            ligne =  input("Jouer à la coordonnée Ligne = ").upper()
-            ligne=ord(ligne)-65
-            colonne = int(input("                      Colonne = "))
-            if tour==3:
-                while ligne<=6:
-                    ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
-                    ligne=ord(ligne)-64
-                while colonne<=7:
-                    colonne = int(input("Colonne trop près du centre (minimum 7) : "))        
+            ligne,colonne = demander_coordonnées(tour)
             m.Results([ligne,colonne-1],m.tour)
-        
+
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
             choix_ia=m.MinMax()
@@ -47,13 +52,14 @@ def humain_vs_ia():
             m.Results([choix_ia[0][0],choix_ia[0][1]],m.tour)
         
         m.tourSuivant()
+
         joueur_actuel+=1
         if joueur_actuel==2:
             joueur_actuel=0
+        tour+=1
 
         cls()
         print("\n")
-        tour+=1
 
     m.display()
     gagnant=m.gagnant()
