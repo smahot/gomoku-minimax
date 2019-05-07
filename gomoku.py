@@ -9,7 +9,7 @@ class gomoku:
         self.hauteur = len(self.grille)
         self.largeur = len(self.grille[0])
         self.tic = 0
-        self.limite = 5
+        self.limite = 3
 
         self.distanceJeu = 1
 
@@ -110,6 +110,7 @@ class gomoku:
             total -= self.nb_Xsuite(4, joueur2)*20
             total += self.nb_Xsuite(3, joueur1)*5
             total -= self.nb_Xsuite(3, joueur2)*5
+            return total
 
     def nb_Xsuite(self, nb, joueur):
         total = 0
