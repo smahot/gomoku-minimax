@@ -15,14 +15,22 @@ def cls():
 
 def demander_coordonnées(tour):
     ligne =  input("Jouer à la coordonnée Ligne = ").upper()
+    while len(ligne)!=1:
+        ligne =  input("Trop de caractères : ").upper()
     ligne=ord(ligne)-65
     colonne = int(input("                      Colonne = "))
+    while len(colonne)!=1:
+        colonne =  int(input("Trop de caractères : "))
     if tour==3:
         while ligne<=6:
             ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
+            while len(ligne)!=1:
+                ligne =  input("Trop de caractères : ").upper()
             ligne=ord(ligne)-64
         while colonne<=7:
             colonne = int(input("Colonne trop près du centre (minimum 7) : "))
+            while len(colonne)!=1:
+                colonne =  int(input("Trop de caractères : "))
     return ligne,colonne
 
 def humain_vs_ia():
