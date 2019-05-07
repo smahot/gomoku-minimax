@@ -99,8 +99,8 @@ class gomoku:
     
     def Actions(self):
         acts = []
-        for i in range(3):
-            for j in range(3):
+        for i in range(self.hauteur):
+            for j in range(self.largeur):
                 if(self.grille[i][j]==' '):
                     acts.append([i,j])
         return acts
