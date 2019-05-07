@@ -28,15 +28,15 @@ def humain_vs_ia():
         m.display()
         if(type_joueur[joueur_actuel]=='joueur'):
             ligne =  input("Jouer à la coordonnée Ligne = ").upper()
-            ligne=ord(ligne)-65
+            ligne=ord(ligne)-64
             colonne = int(input("                      Colonne = "))
             if tour==3:
-                while ligne<=6:
+                while ligne<=7:
                     ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
-                    ligne=ord(ligne)-65
-                while colonne<=6:
+                    ligne=ord(ligne)-64
+                while colonne<=7:
                     colonne = int(input("Colonne trop près du centre (minimum 7) : "))        
-            m.Results([ligne,colonne],m.tour)
+            m.Results([ligne-1,colonne-1],m.tour)
         
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
@@ -63,11 +63,9 @@ def humain_vs_ia():
         print("Le gagnant est \'",m.gagnant(),"\'! :D\n")
 
 def menu():
-    print("\n 1 : Humain vs Humain assisté par ordinateur\n 2 : Humain vs IA\n")
-    choix = int(input("Mode de jeu : "))
-    
-    if choix==2:
-        humain_vs_ia()
+    print("\n Appuyer sur une entrée pour commencer \n")
+    input()
+    humain_vs_ia()
 
 #------------ Lancement du menu -------------#
 menu()
