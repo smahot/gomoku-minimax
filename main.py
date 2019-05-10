@@ -49,7 +49,7 @@ def humain_vs_ia():
         if(type_joueur[joueur_actuel]=='joueur'):
             ligne,colonne = demander_coordonnées(tour)
             m.Results([ligne,colonne-1],m.tour)
-            self.position_precedente = [ligne,colonne-1]
+            m.position_precedente = [ligne,colonne-1]
 
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
@@ -59,14 +59,19 @@ def humain_vs_ia():
                 while (choix_ia[0][0]>1 and choix_ia[0][0]<14) and (choix_ia[0][1]>1 and choix_ia[0][1]<14):
                     choix_ia=m.MinMax()
             m.Results([choix_ia[0][0],choix_ia[0][1]],m.tour)
-            self.position_precedente = [choix_ia[0][0],choix_ia[0][1]]
-        
+            m.position_precedente = [choix_ia[0][0],choix_ia[0][1]]
+            ''' Pour l'affichage de toutes les possibilités
+            print("\n Appuyer sur une entrée pour continuer \n")
+            input()
+            '''
         m.tourSuivant()
 
         joueur_actuel+=1
         if joueur_actuel==2:
             joueur_actuel=0
         tour+=1
+
+        
 
         cls()
         print("\n")

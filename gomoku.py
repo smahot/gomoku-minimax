@@ -10,7 +10,8 @@ class gomoku:
         self.largeur = len(self.grille[0])
         self.tic = 0
         self.limite = 3
-        self.position_precedente = [0,0]
+        self.position_precedente = [7,7]
+        self.maxAction = 8
 
         self.distanceJeu = 1
 
@@ -184,25 +185,39 @@ class gomoku:
                             return True
         return False
 
-    def Actions(self):
+    def Actions(self, taille):
         acts = []
         for i in range(self.hauteur):
             for j in range(self.largeur):
                 if((self.grille[i][j]==' ') and self.EstAutour(i,j)):
                     acts.append([i,j])
-        return acts
+        for i in range(len(acts)):
+            acts[i].append(abs((acts[i][0]-self.position_precedente[0])**2+(acts[i][1]-self.position_precedente[1])**2))
+
+        
+        acts.sort(key=lambda x : x[2])
+        best_acts = list()
+        length = min(taille, len(acts))
+        for i in range(length):
+            best_acts.append(list())
+            best_acts[i].append(acts[i][0])
+            best_acts[i].append(acts[i][1])
+        return best_acts
 
     def Results(self,position,joueur):
         self.grille[position[0]][position[1]]=joueur
 
     def MinMax(self):
         actions = list()
-        actions.append(self.Actions())
+        actions.append(self.Actions(self.maxAction))
         actions.append(list())
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = self.tour
+            position_temp = self.position_precedente
+            self.position_precedente = [actions[0][i][0],actions[0][i][1]]
             min_utility = self.Min_AB(-10000,10000,1)
             self.grille[actions[0][i][0]][actions[0][i][1]] = " "
+            self.position_precedente = position_temp
             actions[1].append(min_utility)
 
         index = actions[1].index(max(actions[1]))
@@ -211,8 +226,8 @@ class gomoku:
         best.append(actions[0][index])
         best.append(actions[1][index])
 
-        #print("Actions possibles :",actions[0])
-        #print("Scores correspondants :",actions[1])
+        print("Actions possibles :",actions[0])
+        print("Scores correspondants :",actions[1])
         return best
 
     def Max_AB(self,alpha,beta,profondeur):
@@ -222,14 +237,17 @@ class gomoku:
             return self.utility()
 
         actions = list()
-        actions.append(self.Actions())
+        actions.append(self.Actions(self.maxAction-profondeur))
         joueur = self.tour
 
         max_utility = -10000
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
+            position_temp = self.position_precedente
+            self.position_precedente = [actions[0][i][0],actions[0][i][1]]
             max_utility = max(max_utility,self.Min_AB(alpha,beta,profondeur+1))
             self.grille[actions[0][i][0]][actions[0][i][1]] = " "
+            self.position_precedente = position_temp
             if max_utility >= beta:
                 return max_utility
             alpha = max(alpha,max_utility)
@@ -243,7 +261,7 @@ class gomoku:
             return self.utility()
 
         actions = list()
-        actions.append(self.Actions())
+        actions.append(self.Actions(self.maxAction-profondeur))
         
         if self.tour == 'N':
             joueur = 'B'
@@ -253,8 +271,11 @@ class gomoku:
         min_utility = 10000
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = joueur
+            position_temp = self.position_precedente
+            self.position_precedente = [actions[0][i][0],actions[0][i][1]]
             min_utility = min(min_utility,self.Max_AB(alpha,beta,profondeur+1))
             self.grille[actions[0][i][0]][actions[0][i][1]] = " "
+            self.position_precedente = position_temp
             if min_utility<= alpha:
                 return min_utility
             beta = min(beta,min_utility)
