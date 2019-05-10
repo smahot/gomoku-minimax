@@ -15,12 +15,18 @@ def cls():
 
 def demander_coordonnées(tour):
     ligne =  input("Jouer à la coordonnée Ligne = ").upper()
+    while len(ligne)!=1:
+        ligne =  input("Trop de caractères : ").upper()
     ligne=ord(ligne)-65
     colonne = int(input("                      Colonne = "))
+    #while len(colonne)!=1:
+    #    colonne =  int(input("Trop de caractères : "))
     if tour==3:
         while (ligne>1 and ligne<14) and (colonne>1 and colonne<14):
             print(ligne,' ',colonne)
             ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
+            while len(ligne)!=1:
+                ligne =  input("Trop de caractères : ").upper()
             ligne=ord(ligne)-64
             colonne = int(input("Colonne trop près du centre (minimum 7) : "))
             
@@ -43,6 +49,7 @@ def humain_vs_ia():
         if(type_joueur[joueur_actuel]=='joueur'):
             ligne,colonne = demander_coordonnées(tour)
             m.Results([ligne,colonne-1],m.tour)
+            self.position_precedente = [ligne,colonne-1]
 
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
@@ -52,6 +59,7 @@ def humain_vs_ia():
                 while (choix_ia[0][0]>1 and choix_ia[0][0]<14) and (choix_ia[0][1]>1 and choix_ia[0][1]<14):
                     choix_ia=m.MinMax()
             m.Results([choix_ia[0][0],choix_ia[0][1]],m.tour)
+            self.position_precedente = [choix_ia[0][0],choix_ia[0][1]]
         
         m.tourSuivant()
 
