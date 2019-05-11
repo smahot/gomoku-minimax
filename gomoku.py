@@ -9,9 +9,10 @@ class gomoku:
         self.hauteur = len(self.grille)
         self.largeur = len(self.grille[0])
         self.tic = 0
-        self.limite = 3
+        self.limite = 4
         self.position_precedente = [7,7]
         self.maxAction = 8
+        self.tailleGagnante = 5
 
         self.distanceJeu = 1
 
@@ -95,40 +96,64 @@ class gomoku:
         else :
             return False
         
-    def ligneXsuite_libre(self, nb, liste):
+    def ligneXsuite_libre(self, liste):
         liste = list(liste)
+
+        total = list()
+        total.append(list())
+        total.append(list())
+        for i in range(self.tailleGagnante-2):
+            total[0].append([0,0])
+            total[1].append([0,0])
 
         case_libre = False
         compteur = 1
         signe = ' '
         i = 0
         for i in range(len(liste)):
-            if compteur == nb:
-                break
             if liste[i] == signe and signe != ' ':
                 signe = liste[i]
                 compteur += 1
             elif liste[i] == signe and signe == ' ':
                 compteur = 0
                 case_libre = True
-            elif liste[i] != signe and signe != ' ':
-                case_libre = False
-                compteur = 1
-                signe = liste[i]                
-            else: # liste[i] != signe and signe == ' ':
+                          
+            elif liste[i] != signe and signe == ' ':
                 case_libre = True
                 compteur = 1
-                signe = liste[i] 
-        
-        if compteur == nb:
-            if case_libre:
-                return signe
-            elif i < len(liste) and liste[i] == " ":
-                return signe
+                signe = liste[i]
+            else :# liste[i] != signe and signe != ' ':
+                if compteur > 1:
+                    if case_libre:
+                        if liste[i] == ' ':
+                            if signe == self.tour:
+                                total[0][min(compteur, self.tailleGagnante-1)-2][1] += 1
+                            else :
+                                total[1][min(compteur, self.tailleGagnante-1)-2][1] += 1
+                        else:
+                            if signe == self.tour:
+                                total[0][min(compteur, self.tailleGagnante-1)-2][0] += 1
+                            else :
+                                total[1][min(compteur, self.tailleGagnante-1)-2][0] += 1
+                    elif liste[i] == ' ':
+                        if signe == self.tour:
+                            total[0][min(compteur, self.tailleGagnante-1)-2][0] += 1
+                        else :
+                            total[1][min(compteur, self.tailleGagnante-1)-2][0] += 1
+
+                if liste[i] == ' ':
+                    case_libre = True
+                else:
+                    case_libre = False
+                compteur = 1
+                signe = liste[i]
+
+        if compteur > 1 and i == len(liste)-1 and case_libre:
+            if signe == self.tour:
+                total[0][min(compteur, self.tailleGagnante-1)-2][0] += 1
             else :
-                return False
-        else :
-            return False
+                total[1][min(compteur, self.tailleGagnante-1)-2][0] += 1
+        return total
 
     def utility (self):
         if self.matchNul():
@@ -143,37 +168,65 @@ class gomoku:
             return -10000
         else:
             total = 0
-            total += self.nb_Xsuite(4, joueur1)*20
-            total -= self.nb_Xsuite(4, joueur2)*20
-            total += self.nb_Xsuite(3, joueur1)*5
-            total -= self.nb_Xsuite(3, joueur2)*5
+            result = self.nb_Xsuite()
+            total += result[0][0][0]*1
+            total += result[0][0][1]*3
+            total += result[0][1][0]*6
+            total += result[0][1][1]*250
+            total += result[0][2][0]*50
+            total += result[0][2][1]*1000
+
+            total -= result[1][0][0]*1
+            total -= result[1][0][1]*5
+            total -= result[1][1][0]*9
+            total -= result[1][1][1]*300
+            total -= result[1][2][0]*60
+            total -= result[1][2][1]*1500
+
             return total
 
-    def nb_Xsuite(self, nb, joueur):
-        total = 0
+    def fusionMatriceBversA(self, A, B):
+        for x in range(len(A)):
+            for y in range(len(A[0])):
+                for z in range(len(A[0][0])):
+                    A[x][y][z] += B[x][y][z]
+        return A
+
+    def nb_Xsuite(self):
+        # dim 1 : 0: joueur 1, 1: joueur 2
+        # dim 2 : taille suite : 2 -> 5-1
+        # dim 3 : simple / double
+        total = list()
+        total.append(list())
+        total.append(list())
+        for i in range(self.tailleGagnante-2):
+            total[0].append([0,0])
+            total[1].append([0,0])
+
+
         #lignes :
         for i in range (self.hauteur):
-            if joueur == self.ligneXsuite_libre(nb, self.grille[i]):
-                total += 1
+            temp = self.ligneXsuite_libre(self.grille[i])
+            total = self.fusionMatriceBversA(total, temp)
 
         #colonnes :
-            for i in range (self.largeur):
-                if joueur == self.ligneXsuite_libre(nb, (self.grille[j][i] for j in range(self.hauteur))):
-                    total += 1
+        for i in range (self.largeur):
+            temp = self.ligneXsuite_libre(self.grille[j][i] for j in range(self.hauteur))
+            total = self.fusionMatriceBversA(total, temp)
 
         #diagonales :
-            for start in range(-self.largeur+1, self.largeur -1):
-                liste = list()
-                for i in range(self.hauteur - abs(start)):
-                    liste.append(self.grille[abs(start)+i][i])
-                if joueur == self.ligneXsuite_libre(4, liste):
-                    total += 1
+        for start in range(-self.largeur+1, self.largeur -1):
+            liste = list()
+            for i in range(self.hauteur - abs(start)):
+                liste.append(self.grille[abs(start)+i][i])
+            temp = self.ligneXsuite_libre(liste)
+            total = self.fusionMatriceBversA(total, temp)
 
-                liste = list()
-                for i in range(abs(start)+1):                        
-                    liste.append(self.grille[abs(start)-i][i])
-                if joueur == self.ligneXsuite_libre(4, liste):
-                    total += 1
+            liste = list()
+            for i in range(abs(start)+1):                        
+                liste.append(self.grille[abs(start)-i][i])
+            temp = self.ligneXsuite_libre(liste)
+            total = self.fusionMatriceBversA(total, temp)
         return total
 
 

@@ -60,10 +60,11 @@ def humain_vs_ia():
                     choix_ia=m.MinMax()
             m.Results([choix_ia[0][0],choix_ia[0][1]],m.tour)
             m.position_precedente = [choix_ia[0][0],choix_ia[0][1]]
-            ''' Pour l'affichage de toutes les possibilités
+            '''Pour l'affichage de toutes les possibilités
             print("\n Appuyer sur une entrée pour continuer \n")
             input()
             '''
+            
         m.tourSuivant()
 
         joueur_actuel+=1
