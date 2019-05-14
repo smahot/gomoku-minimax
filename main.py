@@ -1,5 +1,5 @@
 # Application de l'algorithme minimax au gomoku
-# Fait par Steve MAHOT et Matthieu LOUF
+# Fait par Steve MAHOT, Matthieu LOUF et Edwin RAQUIN
 
 #------------ IMPORTATION MODULES -------------#
 import random as rnd
@@ -96,7 +96,6 @@ def humain_vs_ia():
             print("\n Appuyer sur une entrée pour continuer \n")
             input()
             '''
-            
         m.tourSuivant()
 
         joueur_actuel+=1
