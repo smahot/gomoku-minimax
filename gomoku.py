@@ -1,5 +1,5 @@
 # Application de l'algorithme minimax au gomoku
-# Fait par Steve MAHOT et Matthieu LOUF
+# Fait par Steve MAHOT, Matthieu LOUF et Edwin RAQUIN
 
 class gomoku:
     def __init__(self):
