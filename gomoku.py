@@ -173,16 +173,16 @@ class gomoku:
             result = self.nb_Xsuite()
             total += result[0][0][0]*1
             total += result[0][0][1]*5
-            total += result[0][1][0]*10
-            total += result[0][1][1]*300
-            total += result[0][2][0]*50
+            total += result[0][1][0]*50
+            total += result[0][1][1]*800
+            total += result[0][2][0]*70
             total += result[0][2][1]*1500
 
             total -= result[1][0][0]*1
             total -= result[1][0][1]*5
-            total -= result[1][1][0]*10
-            total -= result[1][1][1]*300
-            total -= result[1][2][0]*60
+            total -= result[1][1][0]*50
+            total -= result[1][1][1]*800
+            total -= result[1][2][0]*70
             total -= result[1][2][1]*1500
 
             return total
