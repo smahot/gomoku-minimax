@@ -13,14 +13,35 @@ from gomoku import gomoku
 def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
-def demander_coordonnées(tour):
-    ligne =  input("Jouer à la coordonnée Ligne = ").upper()
+def demanderInt(min,max):
+    result = -1
+    try:
+        result=int(input())
+    except:
+        print("Ce ne n'est pas un int")
+
+    while (result<min) or (result>max):
+        print("Une valeur entre ", min," et ", max)
+        try:
+            result = int(input())
+        except:
+            print("Ce ne n'est pas un int")
+        
+    return result
+
+def demanderChar():
+    ligne =  input().upper()
     while len(ligne)!=1:
         ligne =  input("Trop de caractères : ").upper()
+    return ligne
+
+def demander_coordonnées(tour):
+    print("Jouer à la coordonnée Ligne = ")
+    ligne =  demanderChar()
     ligne=ord(ligne)-65
-    colonne = int(input("                      Colonne = "))
-    #while len(colonne)!=1:
-    #    colonne =  int(input("Trop de caractères : "))
+    print("Colonne = ")
+    colonne = demanderInt(1,15)
+    
     if tour==3:
         while (ligne>1 and ligne<14) and (colonne>1 and colonne<14):
             print(ligne,' ',colonne)
@@ -37,7 +58,18 @@ def humain_vs_ia():
 
     rnd.seed()
     type_joueur =['joueur','ia']
-    joueur_actuel = rnd.randint(0,1)
+    print("Qui commence ? 0-joueur 1-ia")
+    joueur_actuel = demanderInt(0,1)
+    print("Quel couleur de pion commence ? N ou B")
+    pion_actuel = demanderChar()
+    print(pion_actuel)
+    m.grille[7][7]= pion_actuel
+    m.tour = pion_actuel
+    m.tourSuivant()
+    
+    joueur_actuel+=1
+    if joueur_actuel==2:
+        joueur_actuel=0
 
     print("Début de la partie : \n")
     tour=2
