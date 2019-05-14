@@ -276,8 +276,8 @@ class gomoku:
         actions.append(list())
         for i in range(len(actions[0])):
             self.grille[actions[0][i][0]][actions[0][i][1]] = self.tour
-            position_temp = self.position_minimax_precedente
             self.position_minimax_precedente = [actions[0][i][0],actions[0][i][1]]
+            position_temp = self.position_minimax_precedente
             min_utility = self.Min_AB(-10000,10000,1)
             self.grille[actions[0][i][0]][actions[0][i][1]] = " "
             self.position_minimax_precedente = position_temp

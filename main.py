@@ -96,7 +96,6 @@ def humain_vs_ia():
             print("\n Appuyer sur une entrée pour continuer \n")
             input()
             '''
-            
         m.tourSuivant()
 
         joueur_actuel+=1
