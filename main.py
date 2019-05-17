@@ -48,7 +48,7 @@ def demander_coordonnées(tour):
             ligne =  input("Ligne trop près du centre (minimum 7) : ").upper()
             while len(ligne)!=1:
                 ligne =  input("Trop de caractères : ").upper()
-            ligne=ord(ligne)-64
+            ligne=ord(ligne)-65
             colonne = int(input("Colonne trop près du centre (minimum 7) : "))
             
     return ligne,colonne
@@ -81,7 +81,6 @@ def humain_vs_ia():
         if(type_joueur[joueur_actuel]=='joueur'):
             ligne,colonne = demander_coordonnées(tour)
             m.Results([ligne,colonne-1],m.tour)
-            m.position_precedente = [ligne,colonne-1]
 
         else :
             print("-> Calcul des actions possibles (peut durer 10s)\n")
@@ -91,8 +90,10 @@ def humain_vs_ia():
                 while (choix_ia[0][0]>1 and choix_ia[0][0]<14) and (choix_ia[0][1]>1 and choix_ia[0][1]<14):
                     choix_ia=m.MinMax()
             m.Results([choix_ia[0][0],choix_ia[0][1]],m.tour)
-            m.position_precedente = [choix_ia[0][0],choix_ia[0][1]]
+            
             '''Pour l'affichage de toutes les possibilités
+            print(m.position_dernier_coup)
+            print(m.position_avant_dernier_coup)
             print("\n Appuyer sur une entrée pour continuer \n")
             input()
             '''

@@ -13,7 +13,7 @@ class gomoku:
         self.position_minimax_precedente = [7,7]
         self.position_dernier_coup = [7,7]
         self.position_avant_dernier_coup = [7,7]
-        self.maxAction = 17
+        self.maxAction = 15
         self.tailleGagnante = 5
 
         self.distanceJeu = 1
@@ -173,16 +173,16 @@ class gomoku:
             result = self.nb_Xsuite()
             total += result[0][0][0]*1
             total += result[0][0][1]*5
-            total += result[0][1][0]*50
-            total += result[0][1][1]*800
-            total += result[0][2][0]*70
+            total += result[0][1][0]*10
+            total += result[0][1][1]*300
+            total += result[0][2][0]*50
             total += result[0][2][1]*1500
 
             total -= result[1][0][0]*1
             total -= result[1][0][1]*5
-            total -= result[1][1][0]*50
-            total -= result[1][1][1]*800
-            total -= result[1][2][0]*70
+            total -= result[1][1][0]*10
+            total -= result[1][1][1]*300
+            total -= result[1][2][0]*60
             total -= result[1][2][1]*1500
 
             return total
@@ -247,12 +247,11 @@ class gomoku:
                 if((self.grille[i][j]==' ') and self.EstAutour(i,j)):
                     acts.append([i,j])
         for i in range(len(acts)):
-            position_moy_2_dernier_coup = [(2*self.position_dernier_coup[0]+self.position_avant_dernier_coup[0])/3,(2*self.position_dernier_coup[1]+self.position_avant_dernier_coup[1])/3 ]
-            
+            position_moy_2_dernier_coup = [(4*self.position_dernier_coup[0]+self.position_avant_dernier_coup[0])/5,(4*self.position_dernier_coup[1]+self.position_avant_dernier_coup[1])/5 ]
             acts[i].append(abs(
                     max(
-                    abs(acts[i][0]-(self.position_minimax_precedente[0]+2*position_moy_2_dernier_coup[0])/3),
-                    abs(acts[i][1]-(self.position_minimax_precedente[1]+2*position_moy_2_dernier_coup[1])/3)
+                    abs(acts[i][0]-(self.position_minimax_precedente[0]+3*position_moy_2_dernier_coup[0])/4),
+                    abs(acts[i][1]-(self.position_minimax_precedente[1]+3*position_moy_2_dernier_coup[1])/4)
                     )))
 
         
@@ -271,6 +270,9 @@ class gomoku:
         self.position_dernier_coup=[position[0],position[1]]
 
     def MinMax(self):
+        self.position_minimax_precedente = self.position_dernier_coup
+        '''print([(4*self.position_dernier_coup[0]+self.position_avant_dernier_coup[0])/5,(4*self.position_dernier_coup[1]+self.position_avant_dernier_coup[1])/5 ])
+        print(self.position_minimax_precedente)'''
         actions = list()
         actions.append(self.Actions(self.maxAction))
         actions.append(list())
@@ -300,7 +302,7 @@ class gomoku:
             return self.utility()
 
         actions = list()
-        actions.append(self.Actions(self.maxAction-profondeur))
+        actions.append(self.Actions(self.maxAction-2*profondeur))
         joueur = self.tour
 
         max_utility = -10000
@@ -324,7 +326,7 @@ class gomoku:
             return self.utility()
 
         actions = list()
-        actions.append(self.Actions(self.maxAction-profondeur))
+        actions.append(self.Actions(self.maxAction-2*profondeur))
         
         if self.tour == 'N':
             joueur = 'B'
